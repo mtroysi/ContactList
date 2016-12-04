@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  * Created by Morgane TROYSI on 12/3/16.
@@ -46,14 +45,19 @@ public class ContactFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Contact contact = adapter.getItem(position);
-        Intent intent = new Intent(mainActivity, Display.class);
-        intent.putExtra("name", contact.getNom().toUpperCase() + " " + contact.getPrenom().toUpperCase());
-        intent.putExtra("mail", contact.getMail());
-        //TODO: voir pour le mois en lettres
-        intent.putExtra("day", contact.getDay());
-        intent.putExtra("month", contact.getMonth());
-        intent.putExtra("year", contact.getYear());
-        startActivity(intent);
+
+        DisplayFragment displayFragment=(DisplayFragment)getFragmentManager().findFragmentById(R.id.display);
+        if(getResources().getBoolean(R.bool.land_value) && displayFragment != null){
+            displayFragment.displayContact(contact.getNom().toUpperCase() + " " + contact.getPrenom(), contact.getMail(), contact.getDay(), contact.getMonth(), contact.getYear());
+        } else {
+            Intent intent = new Intent(mainActivity, Display.class);
+            intent.putExtra("name", contact.getNom().toUpperCase() + " " + contact.getPrenom().toUpperCase());
+            intent.putExtra("mail", contact.getMail());
+            intent.putExtra("day", contact.getDay());
+            intent.putExtra("month", contact.getMonth());
+            intent.putExtra("year", contact.getYear());
+            startActivity(intent);
+        }
     }
 
     @Override
