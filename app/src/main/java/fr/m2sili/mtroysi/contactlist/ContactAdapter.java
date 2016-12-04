@@ -15,16 +15,18 @@ import android.widget.TextView;
 
 public class ContactAdapter extends ArrayAdapter<Contact> {
     private Context context;
+    private int resource;
 
     public ContactAdapter(Context context, int resource) {
         super(context, resource);
         this.context = context;
+        this.resource = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.ligne, parent, false);
+        View v = inflater.inflate(resource, parent, false);
 
         Contact contact = getItem(position);
 
