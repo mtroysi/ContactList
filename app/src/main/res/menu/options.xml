@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="fr.m2sili.mtroysi.contactlist.ContactList">
+
+    <item
+        android:id="@+id/new_contact"
+        android:title="Nouveau contact"
+        >
+    </item>
+</menu>
