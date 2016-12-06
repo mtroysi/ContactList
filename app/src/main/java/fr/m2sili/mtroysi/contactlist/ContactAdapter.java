@@ -1,6 +1,7 @@
 package fr.m2sili.mtroysi.contactlist;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,20 +26,25 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(resource, parent, false);
 
         Contact contact = getItem(position);
 
-        TextView nom = (TextView)v.findViewById(R.id.nom);
+        TextView nom = (TextView) v.findViewById(R.id.nom);
         nom.setText(contact.getNom().toUpperCase() + " " + contact.getPrenom().toUpperCase());
 
-        ImageView avatar = (ImageView)v.findViewById(R.id.avatar);
-        avatar.setVisibility(View.GONE);
+        TextView no_image = (TextView) v.findViewById(R.id.no_image);
 
-        TextView no_image = (TextView)v.findViewById(R.id.no_image);
-        no_image.setTypeface(null, Typeface.ITALIC);
-
+        ImageView avatar = (ImageView) v.findViewById(R.id.avatar);
+        if(!contact.getAvatar().isEmpty()) {
+            avatar.setImageBitmap(BitmapFactory.decodeFile(contact.getAvatar()));
+            avatar.setVisibility(View.VISIBLE);
+            no_image.setVisibility(View.GONE);
+        } else {
+            avatar.setVisibility(View.GONE);
+            no_image.setTypeface(null, Typeface.ITALIC);
+        }
         return v;
     }
 }

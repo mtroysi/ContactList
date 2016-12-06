@@ -7,10 +7,14 @@ package fr.m2sili.mtroysi.contactlist;
 public class Contact {
     private String nom;
     private String prenom;
-    int day;
-    int month;
-    int year;
-    String mail;
+    private int day;
+    private int month;
+    private int year;
+    private String mail;
+    private String avatar;
+    private boolean inProgress;
+    private int progression;
+    private int position;
 
     public Contact(String nom, String prenom, int day, int month, int year, String mail) {
         this.nom = nom;
@@ -67,5 +71,37 @@ public class Contact {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public boolean isInProgress() {
+        return inProgress;
+    }
+
+    public void setInProgress(boolean inProgress) {
+        this.inProgress = inProgress;
+    }
+
+    public int getProgression() {
+        return progression;
+    }
+
+    public void setProgression(int progression) {
+        this.progression = progression;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

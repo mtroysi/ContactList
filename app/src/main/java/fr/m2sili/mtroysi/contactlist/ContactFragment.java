@@ -2,6 +2,7 @@ package fr.m2sili.mtroysi.contactlist;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,10 +21,23 @@ import android.widget.ListView;
  * Created by Morgane TROYSI on 12/3/16.
  */
 
-public class ContactFragment extends ListFragment {
+public class ContactFragment extends ListFragment implements TaskFragment.TaskCallBacks {
 
     private ContactList mainActivity = null;
     private ContactAdapter adapter;
+    private static final String TAG_TASKS_FRAGMENT = "task_fragment";
+    private TaskFragment mTaskFragment;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FragmentManager fm = getFragmentManager();
+        mTaskFragment = (TaskFragment) fm.findFragmentByTag(TAG_TASKS_FRAGMENT);
+        if (mTaskFragment == null) {
+            mTaskFragment = new TaskFragment();
+            fm.beginTransaction().add(mTaskFragment, TAG_TASKS_FRAGMENT).commit();
+        }
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -85,17 +99,30 @@ public class ContactFragment extends ListFragment {
                         Contact contact = new Contact(nom.getText().toString(), prenom.getText().toString(), birthday.getDayOfMonth(), birthday.getMonth() + 1, birthday.getYear(), mail.getText().toString());
                         adapter.add(contact);
                         adapter.notifyDataSetChanged();
+                        mTaskFragment.launchUpload(contact);
+
                     }
                 });
 
                 adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
+                        // Do nothing
                     }
                 });
                 adb.show();
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onContactUpdate(Contact contact) {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onContactDone(Contact contact) {
+        adapter.getItem(contact.getPosition()).setInProgress(false);
+        adapter.notifyDataSetChanged();
     }
 }
