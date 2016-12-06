@@ -54,8 +54,10 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             avatar.setImageBitmap(BitmapFactory.decodeFile(contact.getAvatar()));
             avatar.setVisibility(View.VISIBLE);
             no_image.setVisibility(View.GONE);
+            bar.setVisibility(View.GONE);
         } else {
             avatar.setVisibility(View.GONE);
+            bar.setVisibility(View.VISIBLE);
             no_image.setTypeface(null, Typeface.ITALIC);
         }
 

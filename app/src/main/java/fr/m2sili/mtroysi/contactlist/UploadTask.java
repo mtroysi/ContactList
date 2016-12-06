@@ -45,8 +45,10 @@ public class UploadTask extends AsyncTask<Contact, Contact, Contact> {
                 // Fusion de l'image dans la nouvelle créée précédemment
                 c.drawBitmap(bmp, 0, 0, null);
                 //publishProgress
-                contacts[0].setProgression((i / files.length) * 100);
+                double num = (double) (i + 1) / (double)files.length;
+                contacts[0].setProgression((int) (num * 100));
                 publishProgress(contacts[0]);
+                Thread.sleep(1000);
             }
 
             // Sauvegarde de l'avatar créé
