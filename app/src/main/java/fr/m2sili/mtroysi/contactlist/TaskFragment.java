@@ -12,6 +12,7 @@ public class TaskFragment extends Fragment {
     static interface TaskCallBacks {
         public void onContactUpdate(Contact contact);
         public void onContactDone(Contact contact);
+        public void onContactAdded(Contact contact);
     }
     private TaskCallBacks mMainActivityListener = null;
     private ContactAdapter adapter;
@@ -50,5 +51,9 @@ public class TaskFragment extends Fragment {
 
     public void setAdapter(ContactAdapter adapter) {
         this.adapter = adapter;
+    }
+
+    public void onContactAdded(Contact contact) {
+        this.adapter.add(contact);
     }
 }

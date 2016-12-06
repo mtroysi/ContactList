@@ -48,14 +48,14 @@ public class UploadTask extends AsyncTask<Contact, Contact, Contact> {
                 double num = (double) (i + 1) / (double)files.length;
                 contacts[0].setProgression((int) (num * 100));
                 publishProgress(contacts[0]);
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }
 
             // Sauvegarde de l'avatar créé
             FileOutputStream out = null;
-            out = new FileOutputStream(storageDirectory + "/" + contacts[0].getNom());
+            out = new FileOutputStream(storageDirectory + "/" + contacts[0].getNom() + ".png");
             bitmapRes.compress(Bitmap.CompressFormat.PNG, 100, out);
-            contacts[0].setAvatar(storageDirectory + "/" + contacts[0].getNom());
+            contacts[0].setAvatar(storageDirectory + "/" + contacts[0].getNom() + ".png");
         } catch (Exception e) {
             e.printStackTrace();
         }

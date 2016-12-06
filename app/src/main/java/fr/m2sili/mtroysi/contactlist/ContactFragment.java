@@ -17,6 +17,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.io.File;
+
 /**
  * Created by Morgane TROYSI on 12/3/16.
  */
@@ -32,15 +34,35 @@ public class ContactFragment extends ListFragment implements TaskFragment.TaskCa
         mainActivity = (ContactList) activity;
     }
 
+    public void setup() {
+        Contact c1 = new Contact("Dupont", "Jean", 26, 5, 1994, "test@test.fr");
+        Contact c2 = new Contact("Smith", "John", 26, 5, 1994, "test@test.fr");
+
+        onContactAdded(c1);
+        onContactAdded(c2);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_layout, container, false);
         setHasOptionsMenu(true);
         adapter = new ContactAdapter(inflater.getContext(), R.layout.ligne);
         setListAdapter(adapter);
-        adapter.add(new Contact("Dupont", "Jean", 26, 5, 1994, "test@test.fr"));
-        adapter.add(new Contact("Smith", "John", 26, 5, 1994, "test@test.fr"));
+
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(mainActivity.getAdapter() != null) {
+            // Si l'adapter est null et qu'il y a des éléments dans le FSI (-> rotation)
+            this.populate();
+        } else {
+            // Si l'adapter n'est pas null, on peuple celui du FSI (-> 1er lancement)
+            mainActivity.initiateAdapter();
+            setup();
+        }
     }
 
     @Override
@@ -84,11 +106,7 @@ public class ContactFragment extends ListFragment implements TaskFragment.TaskCa
                         EditText mail = (EditText) alertDialogView.findViewById(R.id.saisie_mail);
                         DatePicker birthday = (DatePicker) alertDialogView.findViewById(R.id.saisie_ddn);
                         Contact contact = new Contact(nom.getText().toString(), prenom.getText().toString(), birthday.getDayOfMonth(), birthday.getMonth() + 1, birthday.getYear(), mail.getText().toString());
-                        adapter.add(contact);
-                        adapter.notifyDataSetChanged();
-                        contact.setInProgress(true);
-                        mainActivity.launchUpload(contact);
-
+                        onContactAdded(contact);
                     }
                 });
 
@@ -112,5 +130,23 @@ public class ContactFragment extends ListFragment implements TaskFragment.TaskCa
     public void onContactDone(Contact contact) {
         adapter.getItem(contact.getPosition()).setInProgress(false);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onContactAdded(Contact contact) {
+        adapter.add(contact);
+        mainActivity.onContactAdded(contact);
+        adapter.notifyDataSetChanged();
+        if (!new File(contact.getAvatar()).exists()) {
+            contact.setInProgress(true);
+            mainActivity.launchUpload(contact);
+        }
+    }
+
+    public void populate() {
+        int i;
+        for(i = 0; i < mainActivity.getAdapter().getCount(); ++i) {
+            adapter.add(mainActivity.getAdapter().getItem(i));
+        }
     }
 }

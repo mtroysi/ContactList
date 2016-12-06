@@ -25,6 +25,11 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         this.resource = resource;
     }
 
+    public ContactAdapter(Context context) {
+        super(context, R.layout.ligne);
+        this.context = context;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

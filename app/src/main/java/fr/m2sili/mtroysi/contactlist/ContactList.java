@@ -20,7 +20,7 @@ public class ContactList extends Activity implements TaskFragment.TaskCallBacks 
         setContentView(R.layout.main);
         FragmentManager fm = getFragmentManager();
 
-        contactFragment=(ContactFragment) fm.findFragmentById(R.id.contact_fragment);
+        contactFragment = (ContactFragment) fm.findFragmentById(R.id.contact_fragment);
 
         mTaskFragment = (TaskFragment) fm.findFragmentByTag(TAG_TASKS_FRAGMENT);
         if (mTaskFragment == null) {
@@ -42,4 +42,23 @@ public class ContactList extends Activity implements TaskFragment.TaskCallBacks 
     public void launchUpload(Contact contact) {
         mTaskFragment.launchUpload(contact);
     }
+
+    public void onContactAdded(Contact contact) {
+        mTaskFragment.onContactAdded(contact);
+    }
+
+    public ContactAdapter getAdapter() {
+        return mTaskFragment.getAdapter();
+    }
+
+    public void initiateAdapter() {
+        mTaskFragment.setAdapter(new ContactAdapter(this));
+    }
+
+//    public void populate(ContactAdapter adapter) {
+//        int i;
+//        for(i = 0; i < adapter.getCount(); ++i) {
+//            mTaskFragment.getAdapter().add(adapter.getItem(i));
+//        }
+//    }
 }
