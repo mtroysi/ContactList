@@ -25,19 +25,6 @@ public class ContactFragment extends ListFragment implements TaskFragment.TaskCa
 
     private ContactList mainActivity = null;
     private ContactAdapter adapter;
-    private static final String TAG_TASKS_FRAGMENT = "task_fragment";
-    private TaskFragment mTaskFragment;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        FragmentManager fm = getFragmentManager();
-        mTaskFragment = (TaskFragment) fm.findFragmentByTag(TAG_TASKS_FRAGMENT);
-        if (mTaskFragment == null) {
-            mTaskFragment = new TaskFragment();
-            fm.beginTransaction().add(mTaskFragment, TAG_TASKS_FRAGMENT).commit();
-        }
-    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -99,7 +86,8 @@ public class ContactFragment extends ListFragment implements TaskFragment.TaskCa
                         Contact contact = new Contact(nom.getText().toString(), prenom.getText().toString(), birthday.getDayOfMonth(), birthday.getMonth() + 1, birthday.getYear(), mail.getText().toString());
                         adapter.add(contact);
                         adapter.notifyDataSetChanged();
-                        mTaskFragment.launchUpload(contact);
+                        contact.setInProgress(true);
+                        mainActivity.launchUpload(contact);
 
                     }
                 });

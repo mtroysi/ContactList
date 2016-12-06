@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -35,8 +36,20 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
         nom.setText(contact.getNom().toUpperCase() + " " + contact.getPrenom().toUpperCase());
 
         TextView no_image = (TextView) v.findViewById(R.id.no_image);
+        ProgressBar bar = (ProgressBar)v.findViewById(R.id.progress);
 
         ImageView avatar = (ImageView) v.findViewById(R.id.avatar);
+
+        // Affichage de la bar de progression
+        if (!contact.isInProgress() ) {
+            bar.setVisibility(View.GONE);
+        }
+        else {
+            bar.setVisibility(View.VISIBLE);
+            bar.setProgress(contact.getProgression());
+        }
+
+        // Affichage de l'avatar
         if(!contact.getAvatar().isEmpty()) {
             avatar.setImageBitmap(BitmapFactory.decodeFile(contact.getAvatar()));
             avatar.setVisibility(View.VISIBLE);
@@ -45,6 +58,7 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
             avatar.setVisibility(View.GONE);
             no_image.setTypeface(null, Typeface.ITALIC);
         }
+
         return v;
     }
 }

@@ -32,6 +32,7 @@ public class TaskFragment extends Fragment {
         super.onDetach();
         this.mMainActivityListener = null;
     }
+
     protected void onProgressUpdate(Contact contact) {
         if (mMainActivityListener != null) mMainActivityListener.onContactUpdate(contact);
     }

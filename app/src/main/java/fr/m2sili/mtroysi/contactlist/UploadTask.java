@@ -32,8 +32,8 @@ public class UploadTask extends AsyncTask<Contact, Contact, Contact> {
             Canvas c = new Canvas(bitmapRes);
 
             // Choix des images composant l'avatar
-            String[] files = {"yeux" + getValueForAvatar(contacts[0].getPrenom() + ".png"), "cheveux" + getValueForAvatar(contacts[0].getNom() + ".png"),
-                    "habits" + getValueForClothes(contacts[0].getNom(), contacts[0].getPrenom() + ".png")};
+            String[] files = {"yeux" + getValueForAvatar(contacts[0].getPrenom()) + ".png", "cheveux" + getValueForAvatar(contacts[0].getNom()) + ".png",
+                    "habits" + getValueForClothes(contacts[0].getNom(), contacts[0].getPrenom()) + ".png"};
             String storageDirectory = Environment.getExternalStorageDirectory().toString();
 
             int i;
@@ -45,6 +45,8 @@ public class UploadTask extends AsyncTask<Contact, Contact, Contact> {
                 // Fusion de l'image dans la nouvelle créée précédemment
                 c.drawBitmap(bmp, 0, 0, null);
                 //publishProgress
+                contacts[0].setProgression((i / files.length) * 100);
+                publishProgress(contacts[0]);
             }
 
             // Sauvegarde de l'avatar créé
@@ -64,7 +66,7 @@ public class UploadTask extends AsyncTask<Contact, Contact, Contact> {
         for (i = 0; i < str.length(); ++i) {
             sum += str.charAt(i) - rang;
         }
-        return sum % 3;
+        return (sum % 3) + 1;
     }
 
     public int getValueForClothes(String str1, String str2) {
@@ -76,6 +78,16 @@ public class UploadTask extends AsyncTask<Contact, Contact, Contact> {
         for (i = 0; i < str2.length(); ++i) {
             sum += str2.charAt(i) - rang;
         }
-        return sum % 3;
+        return (sum % 3) + 1;
+    }
+
+    @Override
+    protected void onProgressUpdate(Contact... values) {
+        taskFragment.onProgressUpdate(values[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Contact contact) {
+        taskFragment.onPostExecute(contact);
     }
 }

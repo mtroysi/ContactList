@@ -23,6 +23,8 @@ public class Contact {
         this.month = month;
         this.year = year;
         this.mail = mail;
+        this.setProgression(0);
+        this.avatar = "";
     }
 
     public String getNom() {
