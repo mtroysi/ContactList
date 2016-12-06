@@ -71,7 +71,7 @@ public class ContactFragment extends ListFragment implements TaskFragment.TaskCa
 
         DisplayFragment displayFragment=(DisplayFragment)getFragmentManager().findFragmentById(R.id.display);
         if(getResources().getBoolean(R.bool.land_value) && displayFragment != null){
-            displayFragment.displayContact(contact.getNom().toUpperCase() + " " + contact.getPrenom(), contact.getMail(), contact.getDay(), contact.getMonth(), contact.getYear());
+            displayFragment.displayContact(contact.getNom().toUpperCase() + " " + contact.getPrenom(), contact.getMail(), contact.getDay(), contact.getMonth(), contact.getYear(), contact.getAvatar());
         } else {
             Intent intent = new Intent(mainActivity, Display.class);
             intent.putExtra("name", contact.getNom().toUpperCase() + " " + contact.getPrenom().toUpperCase());
@@ -79,6 +79,7 @@ public class ContactFragment extends ListFragment implements TaskFragment.TaskCa
             intent.putExtra("day", contact.getDay());
             intent.putExtra("month", contact.getMonth());
             intent.putExtra("year", contact.getYear());
+            intent.putExtra("avatar", contact.getAvatar());
             startActivity(intent);
         }
     }

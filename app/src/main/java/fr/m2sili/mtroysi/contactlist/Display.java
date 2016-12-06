@@ -24,7 +24,8 @@ public class Display extends Activity {
             int day = intent.getIntExtra("day", 0);
             int month = intent.getIntExtra("month", 0);
             int year = intent.getIntExtra("year", 0);
-            displayFragment.displayContact(name, mail, day, month, year);
+            String avatar = intent.getStringExtra("avatar");
+            displayFragment.displayContact(name, mail, day, month, year, avatar);
         }
 
     }
